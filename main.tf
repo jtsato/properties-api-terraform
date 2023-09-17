@@ -8,11 +8,11 @@ resource "google_cloud_run_service" "default" {
         image = var.image_url
         env {
           name  = "ASPNETCORE_URLS"
-          value = "http://*:8000"
+          value = var.aspnetcore_urls
         }
         env {
           name  = "ASPNETCORE_ENVIRONMENT"
-          value = "Development"
+          value = var.environment
         }
         env {
           name  = "MONGODB_URL"
@@ -32,7 +32,7 @@ resource "google_cloud_run_service" "default" {
         }
         env {
           name  = "TZ"
-          value = "America/Sao_Paulo"
+          value = var.tz
         }
       }
     }
@@ -53,16 +53,16 @@ resource "google_cloud_run_service" "default" {
   }
 }
 
-resource "google_secret_manager_secret" "mongodb_secret" {
-  name = "mongodb-secret"
+resource "google_secret_manager_secret" "properties_api_secrets" {
+  name = "properties_api_secrets"
 
   replication {
     automatic = true
   }
 }
 
-resource "google_secret_manager_secret_version" "mongodb_secret_version" {
-  secret = google_secret_manager_secret.mongodb_secret.id
+resource "google_secret_manager_secret_version" "properties_api_secrets_version" {
+  secret = google_secret_manager_secret.properties_api_secrets.id
 
-  secret_data = "your-secret-value-here"
+  secret_data = "{\"MONGODB_URL\":\"${var.mongodb_url}\",\"MONGODB_DATABASE\":\"${var.mongodb_database}\",\"PROPERTY_COLLECTION_NAME\":\"${var.property_collection_name}\",\"PROPERTY_SEQUENCE_COLLECTION_NAME\":\"${var.property_sequence_collection_name}\"}"
 }

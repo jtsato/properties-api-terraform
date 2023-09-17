@@ -33,22 +33,27 @@ variable "image_url" {
   type        = string
 }
 
-variable "MONGODB_URL" {
+variable "mongodb_url" {
   description = "MongoDB URL."
   type        = string
 }
 
-variable "MONGODB_DATABASE" {
+variable "mongodb_database" {
   description = "MongoDB database name."
   type        = string
 }
 
-variable "PROPERTY_COLLECTION_NAME" {
+variable "property_collection_name" {
   description = "Property collection name."
   type        = string
 }
 
 variable "property_sequence_collection_name" {
   description = "Property sequence collection name."
+  type        = string
+}
+
+variable "tz" {
+  description = "Timezone."
   type        = string
 }

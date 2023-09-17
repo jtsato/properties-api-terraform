@@ -37,16 +37,16 @@ jobs:
       env:
         IMAGE_URL: ${{ env.IMAGE_URL }}
       run: |
-          echo "TF_VAR_project_id=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
-          echo "TF_VAR_project_name=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
-          echo "TF_VAR_cloud_region=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
-          echo "TF_VAR_zone=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
-          echo "TF_VAR_service_name=${{ env.SERVICE_NAME }}" >> $GITHUB_ENV
-          echo "TF_VAR_image_url=${{ env.IMAGE_URL }}" >> $GITHUB_ENV
-          echo "TF_VAR_mongo_url=${{ secrets.MONGO_URL }}" >> $GITHUB_ENV
+          echo "TF_VAR_PROJECT_ID=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
+          echo "TF_VAR_PROJECT_NAME=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
+          echo "TF_VAR_CLOUD_REGION=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
+          echo "TF_VAR_ZONE=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
+          echo "TF_VAR_SERVICE_NAME=${{ env.SERVICE_NAME }}" >> $GITHUB_ENV
+          echo "TF_VAR_IMAGE_URL=${{ env.IMAGE_URL }}" >> $GITHUB_ENV
+          echo "TF_VAR_MONGO_URL=${{ secrets.MONGO_URL }}" >> $GITHUB_ENV
           echo "TF_VAR_MONGODB_DATABASE=${{ secrets.MONGODB_DATABASE }}" >> $GITHUB_ENV
           echo "TF_VAR_PROPERTY_COLLECTION_NAME=${{ secrets.PROPERTY_COLLECTION_NAME }}" >> $GITHUB_ENV
-          echo "TF_VAR_property_sequence_collection_name=${{ secrets.PROPERTY_SEQUENCE_COLLECTION_NAME }}" >> $GITHUB_ENV
+          echo "TF_VAR_PROPERTY_SEQUENCE_COLLECTION_NAME=${{ secrets.PROPERTY_SEQUENCE_COLLECTION_NAME }}" >> $GITHUB_ENV
 
           echo "GOOGLE_CREDENTIALS=./gcp-credentials.json" >> $GITHUB_ENV
 
@@ -55,16 +55,16 @@ jobs:
 
     - name: Create secrets.tfvars
       run: |
-        echo "project_id=\"$TF_VAR_project_id\"" > secrets.tfvars
-        echo "project_name=\"$TF_VAR_project_name\"" >> secrets.tfvars
-        echo "cloud_region=\"$TF_VAR_cloud_region\"" >> secrets.tfvars
-        echo "zone=\"$TF_VAR_zone\"" >> secrets.tfvars
-        echo "service_name=\"$TF_VAR_service_name\"" >> secrets.tfvars
-        echo "image_url=\"$TF_VAR_image_url\"" >> secrets.tfvars
-        echo "mongo_url=\"$TF_VAR_mongo_url\"" >> secrets.tfvars
+        echo "PROJECT_ID=\"$TF_VAR_PROJECT_ID\"" > secrets.tfvars
+        echo "PROJECT_NAME=\"$TF_VAR_PROJECT_NAME\"" >> secrets.tfvars
+        echo "CLOUD_REGION=\"$TF_VAR_CLOUD_REGION\"" >> secrets.tfvars
+        echo "ZONE=\"$TF_VAR_ZONE\"" >> secrets.tfvars
+        echo "SERVICE_NAME=\"$TF_VAR_SERVICE_NAME\"" >> secrets.tfvars
+        echo "IMAGE_URL=\"$TF_VAR_IMAGE_URL\"" >> secrets.tfvars
+        echo "MONGO_URL=\"$TF_VAR_MONGO_URL\"" >> secrets.tfvars
         echo "MONGODB_DATABASE=\"$TF_VAR_MONGODB_DATABASE\"" >> secrets.tfvars
         echo "PROPERTY_COLLECTION_NAME=\"$TF_VAR_PROPERTY_COLLECTION_NAME\"" >> secrets.tfvars
-        echo "property_sequence_collection_name=\"$TF_VAR_property_sequence_collection_name\"" >> secrets.tfvars
+        echo "PROPERTY_SEQUENCE_COLLECTION_NAME=\"$TF_VAR_PROPERTY_SEQUENCE_COLLECTION_NAME\"" >> secrets.tfvars
 
     - name: Terraform Apply
       env:
