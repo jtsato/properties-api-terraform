@@ -91,8 +91,8 @@ jobs:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           echo "Importing service account..."
-          echo "google_service_account.default_service_account projects/${{ env.PROJECT_ID }}/serviceAccounts/${{ env.SERVICE_NAME }}@${{ env.PROJECT_ID }}.iam.gserviceaccount.com"
-          terraform import google_service_account.default_service_account projects/${{ env.PROJECT_ID }}/serviceAccounts/${{ env.SERVICE_NAME }}@${{ env.PROJECT_ID }}.iam.gserviceaccount.com -var-file=secrets.tfvars
+          echo "google_service_account.default_service_account projects/${{ env.PROJECT_ID }}/serviceAccounts/${{ env.SERVICE_NAME }}
+          terraform import google_service_account.default_service_account projects/${{ env.PROJECT_ID }}/serviceAccounts/${{ env.SERVICE_NAME }} -var-file=secrets.tfvars
 
       - name: Terraform Plan
         env:
