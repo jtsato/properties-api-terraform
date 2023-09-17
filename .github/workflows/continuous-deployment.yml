@@ -10,6 +10,7 @@ on:
   workflow_dispatch:
 
 env:
+  
   DOCKER_REGISTRY: "docker.io"
   ARTIFACT_NAME: "properties-api"
   PROJECT_ID: "duckhome-firebase"
@@ -81,17 +82,17 @@ jobs:
         run: |
           terraform validate
 
-      - name: Terraform Seek and Destroy
+      - name: Terraform Refresh
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
-          terraform destroy -auto-approve -var-file=secrets.tfvars
+          terraform refresh
 
       - name: Terraform Plan
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
-          terraform plan -var-file=secrets.tfvars
+          terraform plan
 
       - name: Terraform Apply
         env:
