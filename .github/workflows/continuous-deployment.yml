@@ -63,6 +63,10 @@ jobs:
         echo "property_collection_name=\"$TF_VAR_property_collection_name\"" >> secrets.tfvars
         echo "property_sequence_collection_name=\"$TF_VAR_property_sequence_collection_name\"" >> secrets.tfvars
 
+    # Debug: List files in current directory
+    - name: List files in current directory
+      run: ls -la
+
     - name: Terraform Apply
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
