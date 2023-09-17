@@ -1,9 +1,11 @@
 resource "google_cloud_run_service" "default" {
   name     = var.service_name
   location = var.cloud_region
+  project  = var.project_id
 
   template {
     spec {
+      service_account_name = var.service_name
       containers {
         image = var.image_url
         env {
@@ -53,15 +55,30 @@ resource "google_cloud_run_service" "default" {
   }
 }
 
-resource "google_secret_manager_secret" "properties_api_secrets" {
-  secret_id = "properties_api_secrets"
-
+resource "google_secret_manager_secret" "mongodb_url" {
+  secret_id = "mongodb_url"
   replication {
     automatic = true
   }
 }
 
-resource "google_secret_manager_secret_version" "properties_api_secrets_version" {
-  secret = google_secret_manager_secret.properties_api_secrets.id
-  secret_data = "{\"MONGODB_URL\":\"${var.mongodb_url}\",\"MONGODB_DATABASE\":\"${var.mongodb_database}\",\"PROPERTY_COLLECTION_NAME\":\"${var.property_collection_name}\",\"PROPERTY_SEQUENCE_COLLECTION_NAME\":\"${var.property_sequence_collection_name}\"}"
+resource "google_secret_manager_secret" "mongodb_database" {
+  secret_id = "mongodb_database"
+  replication {
+    automatic = true
+  }
+}
+
+resource "google_secret_manager_secret" "property_collection_name" {
+  secret_id = "property_collection_name"
+  replication {
+    automatic = true
+  }
+}
+
+resource "google_secret_manager_secret" "property_sequence_collection_name" {
+  secret_id = "property_sequence_collection_name"
+  replication {
+    automatic = true
+  }
 }

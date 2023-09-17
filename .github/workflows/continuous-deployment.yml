@@ -19,6 +19,7 @@ env:
   ZONE: "southamerica-east1-a"
   ASPNETCORE_ENVIRONMENT: "Production"
   ASPNETCORE_URLS: "http://*:80"
+  TZ: "America/Sao_Paulo"
 
 jobs:
   deploy-infrastructure:
@@ -53,6 +54,7 @@ jobs:
           echo "TF_VAR_MONGODB_DATABASE=${{ secrets.MONGODB_DATABASE }}" >> $GITHUB_ENV
           echo "TF_VAR_PROPERTY_COLLECTION_NAME=${{ secrets.PROPERTY_COLLECTION_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_PROPERTY_SEQUENCE_COLLECTION_NAME=${{ secrets.PROPERTY_SEQUENCE_COLLECTION_NAME }}" >> $GITHUB_ENV
+          echo "TF_VAR_TZ=${{ env.TZ }}" >> $GITHUB_ENV
 
           echo "GOOGLE_CREDENTIALS=./gcp-credentials.json" >> $GITHUB_ENV
 
