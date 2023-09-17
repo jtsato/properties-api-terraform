@@ -55,7 +55,6 @@ jobs:
           echo "TF_VAR_PROPERTY_COLLECTION_NAME=${{ secrets.PROPERTY_COLLECTION_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_PROPERTY_SEQUENCE_COLLECTION_NAME=${{ secrets.PROPERTY_SEQUENCE_COLLECTION_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_TZ=${{ env.TZ }}" >> $GITHUB_ENV
-          echo "GOOGLE_CREDENTIALS=./gcp-credentials.json" >> $GITHUB_ENV
 
       - name: Terraform Init
         run: terraform init
@@ -81,10 +80,14 @@ jobs:
           terraform validate
 
       - name: Terraform Plan
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           terraform plan -var-file=secrets.tfvars
 
       - name: Terraform Seek and Destroy
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           terraform destroy -auto-approve -var-file=secrets.tfvars
 
