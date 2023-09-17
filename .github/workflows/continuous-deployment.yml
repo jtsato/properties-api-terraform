@@ -66,7 +66,12 @@ jobs:
         echo "PROPERTY_COLLECTION_NAME=\"$TF_VAR_PROPERTY_COLLECTION_NAME\"" >> secrets.tfvars
         echo "PROPERTY_SEQUENCE_COLLECTION_NAME=\"$TF_VAR_PROPERTY_SEQUENCE_COLLECTION_NAME\"" >> secrets.tfvars
 
+    - name: Terraform Seek and Destroy
+      run: |
+        terraform destroy
+
     - name: Terraform Apply
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-      run: terraform apply -auto-approve -var-file=secrets.tfvars
+      run: |
+        terraform apply -auto-approve -var-file=secrets.tfvars
