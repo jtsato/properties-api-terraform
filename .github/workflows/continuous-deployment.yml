@@ -67,6 +67,8 @@ jobs:
           echo "ZONE=\"$TF_VAR_ZONE\"" >> secrets.tfvars
           echo "SERVICE_NAME=\"$TF_VAR_SERVICE_NAME\"" >> secrets.tfvars
           echo "IMAGE_URL=\"$TF_VAR_IMAGE_URL\"" >> secrets.tfvars
+          echo "ASPNETCORE_ENVIRONMENT=\"$TF_VAR_ASPNETCORE_ENVIRONMENT\"" >> secrets.tfvars
+          echo "ASPNETCORE_URLS=\"$TF_VAR_ASPNETCORE_URLS\"" >> secrets.tfvars
           echo "MONGODB_URL=\"$TF_VAR_MONGODB_URL\"" >> secrets.tfvars
           echo "MONGODB_DATABASE=\"$TF_VAR_MONGODB_DATABASE\"" >> secrets.tfvars
           echo "PROPERTY_COLLECTION_NAME=\"$TF_VAR_PROPERTY_COLLECTION_NAME\"" >> secrets.tfvars
