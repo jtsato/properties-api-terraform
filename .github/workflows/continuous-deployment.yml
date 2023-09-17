@@ -65,6 +65,11 @@ jobs:
         echo "MONGODB_DATABASE=\"$TF_VAR_MONGODB_DATABASE\"" >> secrets.tfvars
         echo "PROPERTY_COLLECTION_NAME=\"$TF_VAR_PROPERTY_COLLECTION_NAME\"" >> secrets.tfvars
         echo "PROPERTY_SEQUENCE_COLLECTION_NAME=\"$TF_VAR_PROPERTY_SEQUENCE_COLLECTION_NAME\"" >> secrets.tfvars
+
+    - name: Terraform refresh 
+      run: |
+        terraform refresh
+        terraform state list   
     
     - name: Terraform Plan
       run: |
