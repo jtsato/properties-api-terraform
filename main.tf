@@ -12,11 +12,14 @@ resource "google_cloud_run_service" "default" {
   template {
     spec {
       service_account_name = var.service_name
+
       containers {
         image = var.image_url
+
         ports {
           container_port = 80
         }
+
         env {
           name  = "ASPNETCORE_URLS"
           value = join(",", var.aspnetcore_urls)
@@ -49,7 +52,7 @@ resource "google_cloud_run_service" "default" {
     }
     metadata {
       annotations = {
-        "autoscaling.knative.dev/maxScale" = "1000"
+        "autoscaling.knative.dev/maxScale" = "5"
       }
     }
   }
@@ -59,9 +62,6 @@ resource "google_cloud_run_service" "default" {
     latest_revision = true
   }
 
-  lifecycle {
-    ignore_changes = [template]
-  }
 }
 
 data "google_project" "project" {
@@ -99,15 +99,15 @@ data "google_iam_policy" "noauth" {
 }
 
 resource "google_cloud_run_service_iam_policy" "noauth" {
-  project     = google_cloud_run_service.default.project
-  service     = google_cloud_run_service.default.name
-  location    = google_cloud_run_service.default.location
+  project  = google_cloud_run_service.default.project
+  service  = google_cloud_run_service.default.name
+  location = google_cloud_run_service.default.location
 
   policy_data = data.google_iam_policy.noauth.policy_data
 }
 
 resource "google_secret_manager_secret" "mongodb_url" {
-  project = var.project_id
+  project   = var.project_id
   secret_id = "mongodb_url"
   replication {
     automatic = true
@@ -115,7 +115,7 @@ resource "google_secret_manager_secret" "mongodb_url" {
 }
 
 resource "google_secret_manager_secret" "mongodb_database" {
-  project = var.project_id
+  project   = var.project_id
   secret_id = "mongodb_database"
   replication {
     automatic = true
@@ -123,7 +123,7 @@ resource "google_secret_manager_secret" "mongodb_database" {
 }
 
 resource "google_secret_manager_secret" "property_collection_name" {
-  project = var.project_id
+  project   = var.project_id
   secret_id = "property_collection_name"
   replication {
     automatic = true
@@ -131,7 +131,7 @@ resource "google_secret_manager_secret" "property_collection_name" {
 }
 
 resource "google_secret_manager_secret" "property_sequence_collection_name" {
-  project = var.project_id
+  project   = var.project_id
   secret_id = "property_sequence_collection_name"
   replication {
     automatic = true
