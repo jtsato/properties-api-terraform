@@ -13,6 +13,7 @@ env:
     DOCKER_REGISTRY: docker.io
     ARTIFACT_NAME: properties-api
     PROJECT_ID: duckhome-firebase
+    PROJECT_NAME: duckhome-project
     SERVICE_NAME: properties-api-service
     CLOUD_REGION: southamerica-east1
 
@@ -38,7 +39,7 @@ jobs:
         IMAGE_URL: ${{ env.IMAGE_URL }}
       run: |
           echo "TF_VAR_PROJECT_ID=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
-          echo "TF_VAR_PROJECT_NAME=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
+          echo "TF_VAR_PROJECT_NAME=${{ env.PROJECT_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_CLOUD_REGION=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
           echo "TF_VAR_ZONE=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
           echo "TF_VAR_SERVICE_NAME=${{ env.SERVICE_NAME }}" >> $GITHUB_ENV
