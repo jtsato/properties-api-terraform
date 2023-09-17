@@ -8,11 +8,11 @@ resource "google_cloud_run_service" "default" {
         image = var.image_url
         env {
           name  = "ASPNETCORE_URLS"
-          value = var.aspnetcore_urls
+          value = join(",", var.aspnetcore_urls)
         }
         env {
           name  = "ASPNETCORE_ENVIRONMENT"
-          value = var.environment
+          value = var.aspnetcore_environment
         }
         env {
           name  = "MONGODB_URL"
@@ -54,7 +54,7 @@ resource "google_cloud_run_service" "default" {
 }
 
 resource "google_secret_manager_secret" "properties_api_secrets" {
-  name = "properties_api_secrets"
+  secret_id = "properties_api_secrets"
 
   replication {
     automatic = true
@@ -63,6 +63,5 @@ resource "google_secret_manager_secret" "properties_api_secrets" {
 
 resource "google_secret_manager_secret_version" "properties_api_secrets_version" {
   secret = google_secret_manager_secret.properties_api_secrets.id
-
   secret_data = "{\"MONGODB_URL\":\"${var.mongodb_url}\",\"MONGODB_DATABASE\":\"${var.mongodb_database}\",\"PROPERTY_COLLECTION_NAME\":\"${var.property_collection_name}\",\"PROPERTY_SEQUENCE_COLLECTION_NAME\":\"${var.property_sequence_collection_name}\"}"
 }

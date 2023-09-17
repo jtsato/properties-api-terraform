@@ -1,8 +1,3 @@
-variable "credentials_path" {
-  description = "The path to the Google Cloud credentials JSON file."
-  type        = string
-}
-
 variable "project_id" {
   description = "The ID of the project to apply any resources to."
   type        = string
@@ -31,6 +26,16 @@ variable "service_name" {
 variable "image_url" {
   description = "URL of the Docker image to deploy."
   type        = string
+}
+
+variable "aspnetcore_environment" {
+  description = "Environment name."
+  type        = string
+}
+
+variable "aspnetcore_urls" {
+  description = "ASP.NET Core URLs."
+  type        = list(string)
 }
 
 variable "mongodb_url" {

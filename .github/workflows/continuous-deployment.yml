@@ -43,6 +43,8 @@ jobs:
           echo "TF_VAR_ZONE=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
           echo "TF_VAR_SERVICE_NAME=${{ env.SERVICE_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_IMAGE_URL=${{ env.IMAGE_URL }}" >> $GITHUB_ENV
+          echo "TF_VAR_ASPNETCORE_ENVIRONMENT=${{ env.ASPNETCORE_ENVIRONMENT }}" >> $GITHUB_ENV
+          echo "TF_VAR_ASPNETCORE_URLS=${{ env.ASPNETCORE_URLS }}" >> $GITHUB_ENV
           echo "TF_VAR_MONGODB_URL=${{ secrets.MONGODB_URL }}" >> $GITHUB_ENV
           echo "TF_VAR_MONGODB_DATABASE=${{ secrets.MONGODB_DATABASE }}" >> $GITHUB_ENV
           echo "TF_VAR_PROPERTY_COLLECTION_NAME=${{ secrets.PROPERTY_COLLECTION_NAME }}" >> $GITHUB_ENV
