@@ -56,6 +56,7 @@ resource "google_cloud_run_service" "default" {
 }
 
 resource "google_secret_manager_secret" "mongodb_url" {
+  project = var.project_id
   secret_id = "mongodb_url"
   replication {
     automatic = true
@@ -63,6 +64,7 @@ resource "google_secret_manager_secret" "mongodb_url" {
 }
 
 resource "google_secret_manager_secret" "mongodb_database" {
+  project = var.project_id
   secret_id = "mongodb_database"
   replication {
     automatic = true
@@ -70,6 +72,7 @@ resource "google_secret_manager_secret" "mongodb_database" {
 }
 
 resource "google_secret_manager_secret" "property_collection_name" {
+  project = var.project_id
   secret_id = "property_collection_name"
   replication {
     automatic = true
@@ -77,6 +80,7 @@ resource "google_secret_manager_secret" "property_collection_name" {
 }
 
 resource "google_secret_manager_secret" "property_sequence_collection_name" {
+  project = var.project_id
   secret_id = "property_sequence_collection_name"
   replication {
     automatic = true
