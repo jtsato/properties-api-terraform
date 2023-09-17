@@ -14,7 +14,7 @@ env:
     ARTIFACT_NAME: properties-api
     PROJECT_ID: duckhome-firebase
     SERVICE_NAME: properties-api-service
-    CLOUD_REGION: southamerica-east1-a    
+    CLOUD_REGION: southamerica-east1
 
 jobs:
   deploy-infrastructure:
