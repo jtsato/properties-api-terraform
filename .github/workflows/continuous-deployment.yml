@@ -44,11 +44,7 @@ jobs:
         env:
           IMAGE_URL: ${{ env.IMAGE_URL }}
         run: |
-          echo "IMAGE_URL=${{ env.IMAGE_URL }}"
-          if [ -z "${{ env.IMAGE_URL }}" ]; then
-            echo "IMAGE_URL is not set"
-            exit 1
-          fi
+          echo "TF_LOG=debug" >> $GITHUB_ENV
           echo "TF_VAR_PROJECT_ID=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
           echo "TF_VAR_PROJECT_NAME=${{ env.PROJECT_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_CLOUD_REGION=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
@@ -90,9 +86,10 @@ jobs:
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
-          terraform destroy -auto-approve
+          terraform destroy -auto-approve 
 
       - name: Terraform Import
+        continue-on-error: true
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
