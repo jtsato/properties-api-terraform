@@ -47,6 +47,7 @@ jobs:
           echo "TF_VAR_mongodb_database_name=${{ secrets.MONGODB_DATABASE_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_property_collection_name=${{ secrets.PROPERTY_COLLECTION_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_property_sequence_collection_name=${{ secrets.PROPERTY_SEQUENCE_COLLECTION_NAME }}" >> $GITHUB_ENV
+          
           echo "GOOGLE_CREDENTIALS=./gcp-credentials.json" >> $GITHUB_ENV
 
     - name: Terraform Init
