@@ -87,7 +87,6 @@ jobs:
           terraform plan -var-file=secrets.tfvars
 
       - name: Terraform Seek and Destroy
-        if: false
         run: |
           terraform destroy
 
