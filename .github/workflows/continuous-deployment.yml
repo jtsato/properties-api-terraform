@@ -1,0 +1,45 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "main"
+  workflow_dispatch:
+
+env:
+    DOCKER_REGISTRY: docker.io
+    ARTIFACT_NAME: properties-api
+    PROJECT_ID: duckhome-firebase
+    SERVICE_NAME: properties-api-service
+    CLOUD_REGION: southamerica-east1-a    
+    IMAGE_URL: docker.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ env.APP_VERSION }}
+
+jobs:
+  build-and-test:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.1.7
+
+    - name: Set Environment Variables from GitHub Secrets
+      run: |
+          echo "TF_VAR_project_id=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
+          echo "TF_VAR_cloud_region=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
+          echo "TF_VAR_service_name=${{ env.SERVICE_NAME }}" >> $GITHUB_ENV
+          echo "TF_VAR_image_url=${{ env.IMAGE_URL }}" >> $GITHUB_ENV
+          echo "GOOGLE_CREDENTIALS=./gcp-credentials.json" >> $GITHUB_ENV
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Apply
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      run: terraform apply -auto-approve -var-file=secrets.tfvars

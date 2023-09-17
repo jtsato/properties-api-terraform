@@ -8,5 +8,6 @@ terraform {
 }
 
 provider "google" {
-  project = var.project_name
+  credentials = file(var.credentials_path)
+  project     = var.project_id
 }
