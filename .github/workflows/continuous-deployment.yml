@@ -10,37 +10,37 @@ on:
   workflow_dispatch:
 
 env:
-    DOCKER_REGISTRY: 'docker.io'
-    ARTIFACT_NAME: 'properties-api'
-    PROJECT_ID: 'duckhome-firebase'
-    PROJECT_NAME: 'duckhome-project'
-    SERVICE_NAME: 'properties-api-service'
-    CLOUD_REGION: 'southamerica-east1'
-    ZONE: 'southamerica-east1-a'
-    ASPNETCORE_ENVIRONMENT: 'Production'
-    ASPNETCORE_URLS: 'http://*:80'
+  DOCKER_REGISTRY: "docker.io"
+  ARTIFACT_NAME: "properties-api"
+  PROJECT_ID: "duckhome-firebase"
+  PROJECT_NAME: "duckhome-project"
+  SERVICE_NAME: "properties-api-service"
+  CLOUD_REGION: "southamerica-east1"
+  ZONE: "southamerica-east1-a"
+  ASPNETCORE_ENVIRONMENT: "Production"
+  ASPNETCORE_URLS: "http://*:80"
 
 jobs:
   deploy-infrastructure:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_version: 1.1.7
-    
-    - name: Build Image URL
-      run: |
-        echo "IMAGE_URL=docker.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ env.APP_VERSION }}" >> $GITHUB_ENV
-        echo "IMAGE_URL=${{ env.IMAGE_URL }}"
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.1.7
 
-    - name: Set Environment Variables from GitHub Secrets
-      env:
-        IMAGE_URL: ${{ env.IMAGE_URL }}
-      run: |
+      - name: Build Image URL
+        run: |
+          echo "IMAGE_URL=docker.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ env.APP_VERSION }}" >> $GITHUB_ENV
+          echo "IMAGE_URL=${{ env.IMAGE_URL }}"
+
+      - name: Set Environment Variables from GitHub Secrets
+        env:
+          IMAGE_URL: ${{ env.IMAGE_URL }}
+        run: |
           echo "TF_VAR_PROJECT_ID=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
           echo "TF_VAR_PROJECT_NAME=${{ env.PROJECT_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_CLOUD_REGION=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
@@ -56,37 +56,44 @@ jobs:
 
           echo "GOOGLE_CREDENTIALS=./gcp-credentials.json" >> $GITHUB_ENV
 
-    - name: Terraform Init
-      run: terraform init
+      - name: Terraform Init
+        run: terraform init
 
-    - name: Create secrets.tfvars
-      run: |
-        echo "PROJECT_ID=\"$TF_VAR_PROJECT_ID\"" > secrets.tfvars
-        echo "PROJECT_NAME=\"$TF_VAR_PROJECT_NAME\"" >> secrets.tfvars
-        echo "CLOUD_REGION=\"$TF_VAR_CLOUD_REGION\"" >> secrets.tfvars
-        echo "ZONE=\"$TF_VAR_ZONE\"" >> secrets.tfvars
-        echo "SERVICE_NAME=\"$TF_VAR_SERVICE_NAME\"" >> secrets.tfvars
-        echo "IMAGE_URL=\"$TF_VAR_IMAGE_URL\"" >> secrets.tfvars
-        echo "MONGODB_URL=\"$TF_VAR_MONGODB_URL\"" >> secrets.tfvars
-        echo "MONGODB_DATABASE=\"$TF_VAR_MONGODB_DATABASE\"" >> secrets.tfvars
-        echo "PROPERTY_COLLECTION_NAME=\"$TF_VAR_PROPERTY_COLLECTION_NAME\"" >> secrets.tfvars
-        echo "PROPERTY_SEQUENCE_COLLECTION_NAME=\"$TF_VAR_PROPERTY_SEQUENCE_COLLECTION_NAME\"" >> secrets.tfvars
+      - name: Create secrets.tfvars
+        run: |
+          echo "PROJECT_ID=\"$TF_VAR_PROJECT_ID\"" > secrets.tfvars
+          echo "PROJECT_NAME=\"$TF_VAR_PROJECT_NAME\"" >> secrets.tfvars
+          echo "CLOUD_REGION=\"$TF_VAR_CLOUD_REGION\"" >> secrets.tfvars
+          echo "ZONE=\"$TF_VAR_ZONE\"" >> secrets.tfvars
+          echo "SERVICE_NAME=\"$TF_VAR_SERVICE_NAME\"" >> secrets.tfvars
+          echo "IMAGE_URL=\"$TF_VAR_IMAGE_URL\"" >> secrets.tfvars
+          echo "MONGODB_URL=\"$TF_VAR_MONGODB_URL\"" >> secrets.tfvars
+          echo "MONGODB_DATABASE=\"$TF_VAR_MONGODB_DATABASE\"" >> secrets.tfvars
+          echo "PROPERTY_COLLECTION_NAME=\"$TF_VAR_PROPERTY_COLLECTION_NAME\"" >> secrets.tfvars
+          echo "PROPERTY_SEQUENCE_COLLECTION_NAME=\"$TF_VAR_PROPERTY_SEQUENCE_COLLECTION_NAME\"" >> secrets.tfvars
 
-    - name: Terraform refresh 
-      run: |
-        terraform refresh
-        terraform state list   
-    
-    - name: Terraform Plan
-      run: |
-        terraform plan -var-file=secrets.tfvars
+      - name: Terraform validate
+        run: |
+          terraform validate
 
-    - name: Terraform Seek and Destroy
-      run: |
-        terraform destroy
+      - name: Terraform state list
+        run: |
+          terraform state list
 
-    - name: Terraform Apply
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-      run: |
-        terraform apply -auto-approve -var-file=secrets.tfvars
+      - name: Terraform refresh
+        run: |
+          terraform refresh
+
+      - name: Terraform Plan
+        run: |
+          terraform plan -var-file=secrets.tfvars
+
+      - name: Terraform Seek and Destroy
+        run: |
+          terraform destroy
+
+      - name: Terraform Apply
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: |
+          terraform apply -auto-approve -var-file=secrets.tfvars
