@@ -17,7 +17,7 @@ env:
     CLOUD_REGION: southamerica-east1-a    
 
 jobs:
-  build-and-test:
+  deploy-infrastructure:
     runs-on: ubuntu-latest
     steps:
 
@@ -36,13 +36,32 @@ jobs:
         IMAGE_URL: ${{ env.IMAGE_URL }}
       run: |
           echo "TF_VAR_project_id=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
+          echo "TF_VAR_project_name=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
           echo "TF_VAR_cloud_region=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
+          echo "TF_VAR_zone=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
           echo "TF_VAR_service_name=${{ env.SERVICE_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_image_url=${{ env.IMAGE_URL }}" >> $GITHUB_ENV
+          echo "TF_VAR_mongo_url=${{ secrets.MONGO_URL }}" >> $GITHUB_ENV
+          echo "TF_VAR_mongodb_database_name=${{ secrets.MONGODB_DATABASE_NAME }}" >> $GITHUB_ENV
+          echo "TF_VAR_property_collection_name=${{ secrets.PROPERTY_COLLECTION_NAME }}" >> $GITHUB_ENV
+          echo "TF_VAR_property_sequence_collection_name=${{ secrets.PROPERTY_SEQUENCE_COLLECTION_NAME }}" >> $GITHUB_ENV
           echo "GOOGLE_CREDENTIALS=./gcp-credentials.json" >> $GITHUB_ENV
 
     - name: Terraform Init
       run: terraform init
+
+    - name: Create secrets.tfvars
+      run: |
+        echo "project_id=\"$TF_VAR_project_id\"" > secrets.tfvars
+        echo "project_name=\"$TF_VAR_project_name\"" >> secrets.tfvars
+        echo "cloud_region=\"$TF_VAR_cloud_region\"" >> secrets.tfvars
+        echo "zone=\"$TF_VAR_zone\"" >> secrets.tfvars
+        echo "service_name=\"$TF_VAR_service_name\"" >> secrets.tfvars
+        echo "image_url=\"$TF_VAR_image_url\"" >> secrets.tfvars
+        echo "mongo_url=\"$TF_VAR_mongo_url\"" >> secrets.tfvars
+        echo "mongodb_database_name=\"$TF_VAR_mongodb_database_name\"" >> secrets.tfvars
+        echo "property_collection_name=\"$TF_VAR_property_collection_name\"" >> secrets.tfvars
+        echo "property_sequence_collection_name=\"$TF_VAR_property_sequence_collection_name\"" >> secrets.tfvars
 
     - name: Terraform Apply
       env:
