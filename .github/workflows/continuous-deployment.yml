@@ -44,10 +44,10 @@ jobs:
           echo "TF_VAR_service_name=${{ env.SERVICE_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_image_url=${{ env.IMAGE_URL }}" >> $GITHUB_ENV
           echo "TF_VAR_mongo_url=${{ secrets.MONGO_URL }}" >> $GITHUB_ENV
-          echo "TF_VAR_mongodb_database_name=${{ secrets.MONGODB_DATABASE_NAME }}" >> $GITHUB_ENV
-          echo "TF_VAR_property_collection_name=${{ secrets.PROPERTY_COLLECTION_NAME }}" >> $GITHUB_ENV
+          echo "TF_VAR_MONGODB_DATABASE=${{ secrets.MONGODB_DATABASE }}" >> $GITHUB_ENV
+          echo "TF_VAR_PROPERTY_COLLECTION_NAME=${{ secrets.PROPERTY_COLLECTION_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_property_sequence_collection_name=${{ secrets.PROPERTY_SEQUENCE_COLLECTION_NAME }}" >> $GITHUB_ENV
-          
+
           echo "GOOGLE_CREDENTIALS=./gcp-credentials.json" >> $GITHUB_ENV
 
     - name: Terraform Init
@@ -62,13 +62,9 @@ jobs:
         echo "service_name=\"$TF_VAR_service_name\"" >> secrets.tfvars
         echo "image_url=\"$TF_VAR_image_url\"" >> secrets.tfvars
         echo "mongo_url=\"$TF_VAR_mongo_url\"" >> secrets.tfvars
-        echo "mongodb_database_name=\"$TF_VAR_mongodb_database_name\"" >> secrets.tfvars
-        echo "property_collection_name=\"$TF_VAR_property_collection_name\"" >> secrets.tfvars
+        echo "MONGODB_DATABASE=\"$TF_VAR_MONGODB_DATABASE\"" >> secrets.tfvars
+        echo "PROPERTY_COLLECTION_NAME=\"$TF_VAR_PROPERTY_COLLECTION_NAME\"" >> secrets.tfvars
         echo "property_sequence_collection_name=\"$TF_VAR_property_sequence_collection_name\"" >> secrets.tfvars
-
-    # Debug: List files in current directory
-    - name: List files in current directory
-      run: ls -la
 
     - name: Terraform Apply
       env:

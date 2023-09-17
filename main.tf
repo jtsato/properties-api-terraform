@@ -19,8 +19,8 @@ resource "google_cloud_run_service" "default" {
           value = var.mongodb_url
         }
         env {
-          name  = "MONGODB_DATABASE_NAME"
-          value = var.mongodb_database_name
+          name  = "MONGODB_DATABASE"
+          value = var.mongodb_database
         }
         env {
           name  = "PROPERTY_COLLECTION_NAME"

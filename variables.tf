@@ -33,17 +33,17 @@ variable "image_url" {
   type        = string
 }
 
-variable "mongodb_url" {
+variable "MONGODB_URL" {
   description = "MongoDB URL."
   type        = string
 }
 
-variable "mongodb_database_name" {
+variable "MONGODB_DATABASE" {
   description = "MongoDB database name."
   type        = string
 }
 
-variable "property_collection_name" {
+variable "PROPERTY_COLLECTION_NAME" {
   description = "Property collection name."
   type        = string
 }
