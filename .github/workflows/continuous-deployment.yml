@@ -77,18 +77,16 @@ jobs:
           echo "tz=\"$TF_VAR_TZ\"" >> secrets.tfvars
 
       - name: Terraform validate
-        if: false
         run: |
           terraform validate
 
       - name: Terraform Plan
-        if: false
         run: |
           terraform plan -var-file=secrets.tfvars
 
       - name: Terraform Seek and Destroy
         run: |
-          terraform destroy
+          terraform destroy -auto-approve -var-file=secrets.tfvars
 
       - name: Terraform Apply
         env:
