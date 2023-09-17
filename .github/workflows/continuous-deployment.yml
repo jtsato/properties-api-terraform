@@ -35,16 +35,20 @@ jobs:
           terraform_version: 1.1.7
 
       - name: Build Image URL
+        id: build_image_url
         run: |
           echo "PPT_PRD=$(cat README.md | grep -o -P '(?<=<!-- ppt-prd-start -->).*(?=<!-- ppt-prd-end -->)')" >> $GITHUB_ENV
           echo "IMAGE_URL=docker.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ env.PPT_PRD }}" >> $GITHUB_ENV
-          echo "PPT_PRD=${{ env.PPT_PRD }}"
-          echo "IMAGE_URL=${{ env.IMAGE_URL }}"
 
       - name: Set Environment Variables from GitHub Secrets
         env:
           IMAGE_URL: ${{ env.IMAGE_URL }}
         run: |
+          echo "IMAGE_URL=${{ env.IMAGE_URL }}"
+          if [ -z "${{ env.IMAGE_URL }}" ]; then
+            echo "IMAGE_URL is not set"
+            exit 1
+          fi
           echo "TF_VAR_PROJECT_ID=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
           echo "TF_VAR_PROJECT_NAME=${{ env.PROJECT_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_CLOUD_REGION=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
