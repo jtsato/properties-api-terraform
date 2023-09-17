@@ -15,7 +15,6 @@ env:
     PROJECT_ID: duckhome-firebase
     SERVICE_NAME: properties-api-service
     CLOUD_REGION: southamerica-east1-a    
-    IMAGE_URL: docker.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ env.APP_VERSION }}
 
 jobs:
   build-and-test:
@@ -27,8 +26,15 @@ jobs:
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: 1.1.7
+    
+    - name: Build Image URL
+      run: |
+        echo "IMAGE_URL=docker.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ env.APP_VERSION }}" >> $GITHUB_ENV
+        echo "IMAGE_URL=${{ env.IMAGE_URL }}"
 
     - name: Set Environment Variables from GitHub Secrets
+      env:
+        IMAGE_URL: ${{ env.IMAGE_URL }}
       run: |
           echo "TF_VAR_project_id=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
           echo "TF_VAR_cloud_region=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
