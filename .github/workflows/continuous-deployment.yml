@@ -79,17 +79,17 @@ jobs:
         run: |
           terraform validate
 
-      - name: Terraform Plan
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-        run: |
-          terraform plan -var-file=secrets.tfvars
-
       - name: Terraform Seek and Destroy
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           terraform destroy -auto-approve -var-file=secrets.tfvars
+
+      - name: Terraform Plan
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: |
+          terraform plan -var-file=secrets.tfvars
 
       - name: Terraform Apply
         env:
