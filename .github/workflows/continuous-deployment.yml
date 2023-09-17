@@ -43,7 +43,7 @@ jobs:
           echo "TF_VAR_ZONE=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
           echo "TF_VAR_SERVICE_NAME=${{ env.SERVICE_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_IMAGE_URL=${{ env.IMAGE_URL }}" >> $GITHUB_ENV
-          echo "TF_VAR_MONGO_URL=${{ secrets.MONGO_URL }}" >> $GITHUB_ENV
+          echo "TF_VAR_MONGODB_URL=${{ secrets.MONGODB_URL }}" >> $GITHUB_ENV
           echo "TF_VAR_MONGODB_DATABASE=${{ secrets.MONGODB_DATABASE }}" >> $GITHUB_ENV
           echo "TF_VAR_PROPERTY_COLLECTION_NAME=${{ secrets.PROPERTY_COLLECTION_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_PROPERTY_SEQUENCE_COLLECTION_NAME=${{ secrets.PROPERTY_SEQUENCE_COLLECTION_NAME }}" >> $GITHUB_ENV
@@ -61,7 +61,7 @@ jobs:
         echo "ZONE=\"$TF_VAR_ZONE\"" >> secrets.tfvars
         echo "SERVICE_NAME=\"$TF_VAR_SERVICE_NAME\"" >> secrets.tfvars
         echo "IMAGE_URL=\"$TF_VAR_IMAGE_URL\"" >> secrets.tfvars
-        echo "MONGO_URL=\"$TF_VAR_MONGO_URL\"" >> secrets.tfvars
+        echo "MONGODB_URL=\"$TF_VAR_MONGODB_URL\"" >> secrets.tfvars
         echo "MONGODB_DATABASE=\"$TF_VAR_MONGODB_DATABASE\"" >> secrets.tfvars
         echo "PROPERTY_COLLECTION_NAME=\"$TF_VAR_PROPERTY_COLLECTION_NAME\"" >> secrets.tfvars
         echo "PROPERTY_SEQUENCE_COLLECTION_NAME=\"$TF_VAR_PROPERTY_SEQUENCE_COLLECTION_NAME\"" >> secrets.tfvars
