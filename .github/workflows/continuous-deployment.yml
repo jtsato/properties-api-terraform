@@ -38,6 +38,7 @@ jobs:
         run: |
           # Build the image name
           echo "PPT_PRD=$(cat README.md | grep -o -P '(?<=<!-- ppt-prd-start -->).*(?=<!-- ppt-prd-end -->)')" >> $GITHUB_ENV
+          echo "PPT_PRD=${{ env.PPT_PRD }}"
           echo "IMAGE_URL=docker.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ env.PPT_PRD }}" >> $GITHUB_ENV
           echo "IMAGE_URL=${{ env.IMAGE_URL }}"
 
