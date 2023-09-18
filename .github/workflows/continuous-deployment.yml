@@ -44,6 +44,7 @@ jobs:
         env:
           IMAGE_URL: ${{ env.IMAGE_URL }}
         run: |
+          echo "IMAGE_URL=${{ env.IMAGE_URL }}"
           echo "TF_LOG=debug" >> $GITHUB_ENV
           echo "TF_VAR_PROJECT_ID=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
           echo "TF_VAR_PROJECT_NAME=${{ env.PROJECT_NAME }}" >> $GITHUB_ENV
@@ -68,6 +69,7 @@ jobs:
 
       - name: Create secrets.tfvars
         run: |
+
           echo "project_id=\"$TF_VAR_PROJECT_ID\"" > secrets.tfvars
           echo "project_name=\"$TF_VAR_PROJECT_NAME\"" >> secrets.tfvars
           echo "cloud_region=\"$TF_VAR_CLOUD_REGION\"" >> secrets.tfvars
