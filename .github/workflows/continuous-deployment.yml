@@ -34,10 +34,14 @@ jobs:
         with:
           terraform_version: 1.1.7
 
+      - name: Get the microservice version from README.md
+        id: version
+        run: |
+          echo "PPT_PRD=$(cat README.md | grep -o -P '(?<=<!-- ppt-prd-start -->).*(?=<!-- ppt-prd-end -->)')" >> $GITHUB_ENV
+
       - name: Build Image URL
         id: build_image_url
         run: |
-          echo "PPT_PRD=$(cat README.md | grep -o -P '(?<=<!-- ppt-prd-start -->).*(?=<!-- ppt-prd-end -->)')" >> $GITHUB_ENV
           echo "IMAGE_URL=docker.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ env.PPT_PRD }}" >> $GITHUB_ENV
 
       - name: Set Environment Variables from GitHub Secrets
