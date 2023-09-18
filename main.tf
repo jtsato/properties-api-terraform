@@ -109,7 +109,6 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
 resource "google_secret_manager_secret" "mongodb_url" {
   project   = var.project_id
   secret_id = "mongodb_url"
-  count = 1
   replication {
     automatic = true
   }
@@ -118,7 +117,6 @@ resource "google_secret_manager_secret" "mongodb_url" {
 resource "google_secret_manager_secret" "mongodb_database" {
   project   = var.project_id
   secret_id = "mongodb_database"
-  count = 1
   replication {
     automatic = true
   }
@@ -127,7 +125,6 @@ resource "google_secret_manager_secret" "mongodb_database" {
 resource "google_secret_manager_secret" "property_collection_name" {
   project   = var.project_id
   secret_id = "property_collection_name"
-  count = 1
   replication {
     automatic = true
   }
@@ -136,7 +133,6 @@ resource "google_secret_manager_secret" "property_collection_name" {
 resource "google_secret_manager_secret" "property_sequence_collection_name" {
   project   = var.project_id
   secret_id = "property_sequence_collection_name"
-  count = 1
   replication {
     automatic = true
   }
