@@ -2,7 +2,7 @@
 Properties API IaC project.
 
 ## Production Version:
-* Properties API: <!-- ppt-prd-start -->v1.0.0-230921117<!-- ppt-prd-end -->
+* Properties API: <!-- ppt-prd-start -->v1.0.0-230921118<!-- ppt-prd-end -->
 
 ## Technology stack
 
