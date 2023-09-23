@@ -93,22 +93,18 @@ jobs:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           terraform destroy -auto-approve -var-file=secrets.tfvars
-          sleep 30  # Wait for 30 seconds to allow resources to be destroyed
 
       - name: Terraform Refresh
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
-          sleep 60  # Wait for 60 seconds to allow resources to be destroyed
           terraform refresh -var-file=secrets.tfvars
-          sleep 30  # Wait for 30 seconds to ensure refresh is complete
 
       - name: Terraform Plan
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           terraform plan -out=tfplan.out -var-file=secrets.tfvars
-          sleep 30  # Wait for 30 seconds to ensure the plan is generated
 
       - name: Terraform Apply
         env:
