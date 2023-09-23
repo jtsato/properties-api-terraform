@@ -104,10 +104,10 @@ jobs:
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
-          terraform plan -var-file=secrets.tfvars
+          terraform plan -out=tfplan.out -var-file=secrets.tfvars
 
       - name: Terraform Apply
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
-          terraform apply -auto-approve -var-file=secrets.tfvars
+          terraform apply -auto-approve tfplan.out
