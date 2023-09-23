@@ -1,6 +1,8 @@
 @echo off
 terraform destroy -auto-approve -var-file=secrets.tfvars
 
+pause
+
 terraform refresh -var-file=secrets.tfvars
 
 terraform state list
