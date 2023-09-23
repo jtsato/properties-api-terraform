@@ -98,7 +98,7 @@ jobs:
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
-          sleep 10
+          sleep 30
           terraform refresh -var-file=secrets.tfvars
 
       - name: Terraform Plan
@@ -108,9 +108,13 @@ jobs:
         run: |
           terraform plan -out=tfplan.out -var-file=secrets.tfvars
 
-      - run: echo ${{ steps.plan.outputs.stdout }}
-      - run: echo ${{ steps.plan.outputs.stderr }}
-      - run: echo ${{ steps.plan.outputs.exitcode }}
+      - name: Terraform Show
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: |
+          echo ${{ steps.plan.outputs.stdout }}
+          echo ${{ steps.plan.outputs.stderr }}
+          echo ${{ steps.plan.outputs.exitcode }}
 
       - name: Terraform Apply
         env:
