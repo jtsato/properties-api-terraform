@@ -74,6 +74,15 @@ jobs:
         run: |
           terraform validate
 
+      - name: Verify Terraform Providers
+        run: |
+          terraform providers lock \
+          -platform=windows_amd64 \
+          -platform=darwin_amd64 \
+          -platform=linux_amd64 \
+          -platform=darwin_arm64 \
+          -platform=linux_arm64
+
       - name: Create secrets.tfvars
         run: |
           echo "project_id=\"$TF_VAR_PROJECT_ID\"" > secrets.tfvars
