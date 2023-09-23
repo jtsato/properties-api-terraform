@@ -100,7 +100,7 @@ jobs:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           terraform refresh -var-file=secrets.tfvars
-          sleep 5
+          sleep 10
 
       - name: Terraform Plan
         env:
