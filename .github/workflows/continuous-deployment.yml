@@ -100,7 +100,6 @@ jobs:
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
-          sleep 30
           terraform refresh -var-file=secrets.tfvars
 
       - name: Terraform Import
@@ -108,7 +107,6 @@ jobs:
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
-          terraform import google_service_account.default_service_account projects/${{ env.PROJECT_ID }}/serviceAccounts/${{ env.SERVICE_NAME }}@${{ env.PROJECT_ID }}.iam.gserviceaccount.com
           terraform import google_secret_manager_secret.mongodb_url projects/${{ env.PROJECT_ID }}/secrets/mongodb_url
           terraform import google_secret_manager_secret.mongodb_database projects/${{ env.PROJECT_ID }}/secrets/mongodb_database
           terraform import google_secret_manager_secret.property_collection_name projects/${{ env.PROJECT_ID }}/secrets/property_collection_name
