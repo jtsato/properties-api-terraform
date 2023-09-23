@@ -93,21 +93,37 @@ jobs:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           terraform destroy -auto-approve -var-file=secrets.tfvars
-     
+          sleep 10
+
       - name: Terraform Refresh
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           terraform refresh -var-file=secrets.tfvars
+          sleep 5
 
       - name: Terraform Plan
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           terraform plan -out=tfplan.out -var-file=secrets.tfvars
+          sleep 3
 
       - name: Terraform Apply
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           terraform apply -auto-approve tfplan.out
+          sleep 10 # Sleep for 10 seconds to allow resources to be provisioned
+
+      - name: Check Service URL
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: |
+          SERVICE_URL=$(terraform output cloud_run_service_url)
+          if curl -IsSf $SERVICE_URL >/dev/null; then
+            echo "Service URL is reachable: $SERVICE_URL"
+          else
+            echo "Service URL is not reachable: $SERVICE_URL"
+            exit 1
+          fi
