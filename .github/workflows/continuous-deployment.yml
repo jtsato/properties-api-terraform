@@ -10,7 +10,6 @@ on:
   workflow_dispatch:
 
 env:
-  
   DOCKER_REGISTRY: "docker.io"
   ARTIFACT_NAME: "properties-api"
   PROJECT_ID: "duckhome-firebase"
@@ -32,7 +31,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.4.2
+          terraform_version: 1.5.7
 
       - name: Get the microservice version from README.md
         id: version
@@ -64,6 +63,9 @@ jobs:
           echo "TF_VAR_PROPERTY_COLLECTION_NAME=${{ secrets.PROPERTY_COLLECTION_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_PROPERTY_SEQUENCE_COLLECTION_NAME=${{ secrets.PROPERTY_SEQUENCE_COLLECTION_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_TZ=${{ env.TZ }}" >> $GITHUB_ENV
+
+      - name: Terraform Version
+        run: terraform -version
 
       - name: Terraform Init
         run: terraform init
