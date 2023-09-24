@@ -1,12 +1,6 @@
 name: Continuous Deployment to GCP [Windows]
 
 on:
-  push:
-    branches:
-      - "**"
-  pull_request:
-    branches:
-      - "main"
   workflow_dispatch:
 
 jobs:
@@ -38,7 +32,7 @@ jobs:
           PPT_PRD: ${{ env.PPT_PRD }}
         run: |
           Write-Output "ARTIFACT=${env:IMAGE_URL}:${env:PPT_PRD}"
-          Write-Output "TF_LOG=info" >> $env:GITHUB_ENV
+          Write-Output "TF_LOG=debug" >> $env:GITHUB_ENV
           Write-Output "TF_VAR_PROJECT_ID=${env:PROJECT_ID}" >> $env:GITHUB_ENV
           Write-Output "TF_VAR_CLOUD_REGION=${env:CLOUD_REGION}" >> $env:GITHUB_ENV
           Write-Output "TF_VAR_ZONE=${env:ZONE}" >> $env:GITHUB_ENV
