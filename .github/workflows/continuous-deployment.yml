@@ -1,17 +1,11 @@
 name: Continuous Deployment
 
 on:
-  push:
-    branches:
-      - "**"
-  pull_request:
-    branches:
-      - "main"
   workflow_dispatch:
 
 jobs:
   deploy-infrastructure:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
