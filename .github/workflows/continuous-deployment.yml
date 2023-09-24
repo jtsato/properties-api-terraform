@@ -9,6 +9,17 @@ on:
       - "main"
   workflow_dispatch:
 
+env:
+  DOCKER_REGISTRY: "docker.io"
+  ARTIFACT_NAME: "properties-api"
+  PROJECT_ID: "duckhome-firebase"
+  SERVICE_NAME: "properties-api-service"
+  CLOUD_REGION: "southamerica-east1"
+  ZONE: "southamerica-east1-a"
+  ASPNETCORE_ENVIRONMENT: "Production"
+  ASPNETCORE_URLS: "http://*:80"
+  TZ: "America/Sao_Paulo"
+
 jobs:
   deploy-infrastructure:
     runs-on: ubuntu-latest
