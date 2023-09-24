@@ -9,17 +9,6 @@ on:
       - "main"
   workflow_dispatch:
 
-env:
-  DOCKER_REGISTRY: "docker.io"
-  ARTIFACT_NAME: "properties-api"
-  PROJECT_ID: "duckhome-firebase"
-  SERVICE_NAME: "properties-api-service"
-  CLOUD_REGION: "southamerica-east1"
-  ZONE: "southamerica-east1-a"
-  ASPNETCORE_ENVIRONMENT: "Production"
-  ASPNETCORE_URLS: "http://*:80"
-  TZ: "America/Sao_Paulo"
-
 jobs:
   deploy-infrastructure:
     runs-on: ubuntu-latest
@@ -40,7 +29,7 @@ jobs:
       - name: Build Image URL
         id: build_image_url
         run: |
-          echo "IMAGE_URL=docker.io/jtsato/${{ env.ARTIFACT_NAME }}:${{ env.PPT_PRD }}" >> $GITHUB_ENV
+          echo "IMAGE_URL=${{ vars.DOCKER_REGISTRY }}/jtsato/${{ vars.ARTIFACT_NAME }}:${{ env.PPT_PRD }}" >> $GITHUB_ENV
 
       - name: Set Environment Variables from GitHub Secrets
         env:
@@ -49,18 +38,18 @@ jobs:
         run: |
           echo "ARTIFACT=${{ env.IMAGE_URL }}:${{ env.PPT_PRD }}"
           echo "TF_LOG=debug" >> $GITHUB_ENV
-          echo "TF_VAR_PROJECT_ID=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
-          echo "TF_VAR_CLOUD_REGION=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
-          echo "TF_VAR_ZONE=${{ env.ZONE }}" >> $GITHUB_ENV
-          echo "TF_VAR_SERVICE_NAME=${{ env.SERVICE_NAME }}" >> $GITHUB_ENV
+          echo "TF_VAR_PROJECT_ID=${{ vars.PROJECT_ID }}" >> $GITHUB_ENV
+          echo "TF_VAR_CLOUD_REGION=${{ vars.CLOUD_REGION }}" >> $GITHUB_ENV
+          echo "TF_VAR_ZONE=${{ vars.ZONE }}" >> $GITHUB_ENV
+          echo "TF_VAR_SERVICE_NAME=${{ vars.SERVICE_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_IMAGE_URL=${{ env.IMAGE_URL }}" >> $GITHUB_ENV
-          echo "TF_VAR_ASPNETCORE_ENVIRONMENT=${{ env.ASPNETCORE_ENVIRONMENT }}" >> $GITHUB_ENV
-          echo "TF_VAR_ASPNETCORE_URLS=${{ env.ASPNETCORE_URLS }}" >> $GITHUB_ENV
+          echo "TF_VAR_ASPNETCORE_ENVIRONMENT=${{ vars.ASPNETCORE_ENVIRONMENT }}" >> $GITHUB_ENV
+          echo "TF_VAR_ASPNETCORE_URLS=${{ vars.ASPNETCORE_URLS }}" >> $GITHUB_ENV
           echo "TF_VAR_MONGODB_URL=${{ secrets.MONGODB_URL }}" >> $GITHUB_ENV
           echo "TF_VAR_MONGODB_DATABASE=${{ secrets.MONGODB_DATABASE }}" >> $GITHUB_ENV
           echo "TF_VAR_PROPERTY_COLLECTION_NAME=${{ secrets.PROPERTY_COLLECTION_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_PROPERTY_SEQUENCE_COLLECTION_NAME=${{ secrets.PROPERTY_SEQUENCE_COLLECTION_NAME }}" >> $GITHUB_ENV
-          echo "TF_VAR_TZ=${{ env.TZ }}" >> $GITHUB_ENV
+          echo "TF_VAR_TZ=${{ vars.TZ }}" >> $GITHUB_ENV
 
       - name: Terraform Version
         run: terraform -version
