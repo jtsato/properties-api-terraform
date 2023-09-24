@@ -9,18 +9,6 @@ on:
       - "main"
   workflow_dispatch:
 
-env:
-  DOCKER_REGISTRY: "docker.io"
-  ARTIFACT_NAME: "properties-api"
-  PROJECT_ID: "duckhome-firebase"
-  PROJECT_NAME: "duckhome-project"
-  SERVICE_NAME: "properties-api-service"
-  CLOUD_REGION: "southamerica-east1"
-  ZONE: "southamerica-east1-a"
-  ASPNETCORE_ENVIRONMENT: "Production"
-  ASPNETCORE_URLS: "http://*:80"
-  TZ: "America/Sao_Paulo"
-
 jobs:
   deploy-infrastructure:
     runs-on: ubuntu-latest
@@ -51,7 +39,6 @@ jobs:
           echo "IMAGE_URL=${{ env.IMAGE_URL }}"
           echo "PPT_PRD=${{ env.PPT_PRD }}"
           echo "TF_VAR_PROJECT_ID=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
-          echo "TF_VAR_PROJECT_NAME=${{ env.PROJECT_NAME }}" >> $GITHUB_ENV
           echo "TF_VAR_CLOUD_REGION=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
           echo "TF_VAR_ZONE=${{ env.ZONE }}" >> $GITHUB_ENV
           echo "TF_VAR_SERVICE_NAME=${{ env.SERVICE_NAME }}" >> $GITHUB_ENV
@@ -86,7 +73,6 @@ jobs:
       - name: Create secrets.tfvars
         run: |
           echo "project_id=\"$TF_VAR_PROJECT_ID\"" > secrets.tfvars
-          echo "project_name=\"$TF_VAR_PROJECT_NAME\"" >> secrets.tfvars
           echo "cloud_region=\"$TF_VAR_CLOUD_REGION\"" >> secrets.tfvars
           echo "zone=\"$TF_VAR_ZONE\"" >> secrets.tfvars
           echo "service_name=\"$TF_VAR_SERVICE_NAME\"" >> secrets.tfvars
