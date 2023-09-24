@@ -92,21 +92,18 @@ jobs:
           terraform destroy -auto-approve -var-file=secrets.tfvars
 
       - name: Terraform Refresh
-        if: false
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           terraform refresh -var-file=secrets.tfvars
 
       - name: Terraform State List
-        if: false
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           terraform state list
 
       - name: Terraform Plan
-        if: false
         id: plan
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
@@ -114,7 +111,6 @@ jobs:
           terraform plan -out=tfplan.out -var-file=secrets.tfvars
 
       - name: Terraform Apply
-        if: false
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
