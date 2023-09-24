@@ -1,4 +1,4 @@
-name: Continuous Deployment
+name: Continuous Deployment to GCP [Linux]
 
 on:
   workflow_dispatch:
