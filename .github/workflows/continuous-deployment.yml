@@ -47,8 +47,8 @@ jobs:
           IMAGE_URL: ${{ env.IMAGE_URL }}
           PPT_PRD: ${{ env.PPT_PRD }}
         run: |
-          echo "IMAGE_URL=${{ env.IMAGE_URL }}"
-          echo "PPT_PRD=${{ env.PPT_PRD }}"
+          echo "ARTIFACT=${{ env.IMAGE_URL }}:${{ env.PPT_PRD }}"
+          echo "TF_LOG=debug" >> $GITHUB_ENV
           echo "TF_VAR_PROJECT_ID=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
           echo "TF_VAR_CLOUD_REGION=${{ env.CLOUD_REGION }}" >> $GITHUB_ENV
           echo "TF_VAR_ZONE=${{ env.ZONE }}" >> $GITHUB_ENV
