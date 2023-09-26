@@ -137,3 +137,10 @@ resource "google_secret_manager_secret" "property_sequence_collection_name" {
     auto {}
   }
 }
+
+terraform {
+  backend "gcs" {
+    bucket = "duckhome-terraform-state"
+    prefix = "terraform/state"
+  }
+}
