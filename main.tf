@@ -106,6 +106,14 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
   policy_data = data.google_iam_policy.noauth.policy_data
 }
 
+# gsutil mb -p duckhome-firebase -c STANDARD -l southamerica-east1 gs://duckhome-prp-terraform-state
+terraform {
+  backend "gcs" {
+    bucket = "duckhome-prp-terraform-state"
+    prefix = "terraform/state"
+  }
+}
+
 resource "google_secret_manager_secret" "mongodb_url" {
   project   = var.project_id
   secret_id = "mongodb_url"
@@ -135,12 +143,5 @@ resource "google_secret_manager_secret" "property_sequence_collection_name" {
   secret_id = "property_sequence_collection_name"
   replication {
     auto {}
-  }
-}
-
-terraform {
-  backend "gcs" {
-    bucket = "duckhome-terraform-state"
-    prefix = "terraform/state"
   }
 }
