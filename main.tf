@@ -113,35 +113,3 @@ terraform {
     prefix = "terraform/state"
   }
 }
-
-resource "google_secret_manager_secret" "mongodb_url" {
-  project   = var.project_id
-  secret_id = "mongodb_url"
-  replication {
-    auto {}
-  }
-}
-
-resource "google_secret_manager_secret" "mongodb_database" {
-  project   = var.project_id
-  secret_id = "mongodb_database"
-  replication {
-    auto {}
-  }
-}
-
-resource "google_secret_manager_secret" "property_collection_name" {
-  project   = var.project_id
-  secret_id = "property_collection_name"
-  replication {
-    auto {}
-  }
-}
-
-resource "google_secret_manager_secret" "property_sequence_collection_name" {
-  project   = var.project_id
-  secret_id = "property_sequence_collection_name"
-  replication {
-    auto {}
-  }
-}
