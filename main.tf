@@ -1,4 +1,4 @@
-resource "google_cloud_run_service" "default" {
+resource "google_cloud_run_v2_service" "default" {
 
   depends_on = [
     google_service_account_iam_member.iam_member,
@@ -10,56 +10,55 @@ resource "google_cloud_run_service" "default" {
   project  = var.project_id
 
   template {
-    spec {
-      service_account_name = var.service_name
+    containers {
+      image = var.image_url
 
-      containers {
-        image = var.image_url
-
-        ports {
-          container_port = 80
-        }
-
-        env {
-          name  = "ASPNETCORE_URLS"
-          value = join(",", var.aspnetcore_urls)
-        }
-        env {
-          name  = "ASPNETCORE_ENVIRONMENT"
-          value = var.aspnetcore_environment
-        }
-        env {
-          name  = "MONGODB_URL"
-          value = var.mongodb_url
-        }
-        env {
-          name  = "MONGODB_DATABASE"
-          value = var.mongodb_database
-        }
-        env {
-          name  = "PROPERTY_COLLECTION_NAME"
-          value = var.property_collection_name
-        }
-        env {
-          name  = "PROPERTY_SEQUENCE_COLLECTION_NAME"
-          value = var.property_sequence_collection_name
-        }
-        env {
-          name  = "TZ"
-          value = var.tz
-        }
+      ports {
+        container_port = 80
       }
-    }
-    metadata {
-      annotations = {
-        "autoscaling.knative.dev/maxScale" = "3"
+
+      env {
+        name  = "ASPNETCORE_URLS"
+        value = join(",", var.aspnetcore_urls)
       }
+      env {
+        name  = "ASPNETCORE_ENVIRONMENT"
+        value = var.aspnetcore_environment
+      }
+      env {
+        name  = "MONGODB_URL"
+        value = var.mongodb_url
+      }
+      env {
+        name  = "MONGODB_DATABASE"
+        value = var.mongodb_database
+      }
+      env {
+        name  = "PROPERTY_COLLECTION_NAME"
+        value = var.property_collection_name
+      }
+      env {
+        name  = "PROPERTY_SEQUENCE_COLLECTION_NAME"
+        value = var.property_sequence_collection_name
+      }
+      env {
+        name  = "TZ"
+        value = var.tz
+      }
+
     }
+
+    scaling {
+      min_instance_count = 0
+      max_instance_count = 2
+    }
+
+    service_account = var.service_name
   }
 
   traffic {
-    percent         = 100
-    latest_revision = true
+    type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+    percent = 100
   }
 
 }
@@ -98,10 +97,10 @@ data "google_iam_policy" "noauth" {
   }
 }
 
-resource "google_cloud_run_service_iam_policy" "noauth" {
-  project  = google_cloud_run_service.default.project
-  service  = google_cloud_run_service.default.name
-  location = google_cloud_run_service.default.location
+resource "google_cloud_run_v2_service_iam_policy" "noauth" {
+  project  = google_cloud_run_v2_service.default.project
+  location = google_cloud_run_v2_service.default.location
+  name     = google_cloud_run_v2_service.default.name
 
   policy_data = data.google_iam_policy.noauth.policy_data
 }
