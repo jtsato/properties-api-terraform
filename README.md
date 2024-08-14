@@ -2,7 +2,7 @@
 Properties API IaC project.
 
 ## Production Version:
-* Properties API: <!-- prp-prd-start -->v1.0.0-240710197<!-- prp-prd-end -->
+* Properties API: <!-- prp-prd-start -->v1.0.0-240814199<!-- prp-prd-end -->
 
 ## Technology stack
 
